@@ -1,130 +1,105 @@
-"use client"
+import Link from "next/link"
+import { BRAND } from "@/lib/tours-data"
+import { ScrollText, Camera, Rocket, ArrowRight } from "lucide-react"
 
-import { Nav } from "@/components/benchmark/nav"
-import { CompanyHeaderCards } from "@/components/benchmark/company-header-cards"
-import { ValuationChart } from "@/components/benchmark/valuation-chart"
-import { ReturnsChart } from "@/components/benchmark/returns-chart"
-import { EfficiencyRadar } from "@/components/benchmark/efficiency-radar"
-import { MetricsTable } from "@/components/benchmark/metrics-table"
-import { LeverageChart } from "@/components/benchmark/leverage-chart"
-import { WorkingCapitalChart } from "@/components/benchmark/working-capital-chart"
-import { InsightsPanel } from "@/components/benchmark/insights-panel"
-import { Database, Clock, BarChart3 } from "lucide-react"
+const OPTIONS = [
+  {
+    href: "/history",
+    n: "01",
+    title: "History",
+    label: "Editorial / Heritage",
+    Icon: ScrollText,
+    desc: "An editorial, museum-grade layout. Serif typography, parchment tones and a meander motif put 2,500 years of storytelling and guide expertise first.",
+    accent: "from-amber-700 to-stone-800",
+    chip: "bg-amber-50 text-amber-900 border-amber-200",
+  },
+  {
+    href: "/imagery",
+    n: "02",
+    title: "Imagery",
+    label: "Immersive / Cinematic",
+    Icon: Camera,
+    desc: "Full-bleed photography drives everything. Minimal type over cinematic Aegean visuals, a draggable gallery and big, breathing whitespace.",
+    accent: "from-sky-600 to-blue-900",
+    chip: "bg-sky-50 text-sky-900 border-sky-200",
+  },
+  {
+    href: "/conversion",
+    n: "03",
+    title: "Conversion",
+    label: "Booking-optimised",
+    Icon: Rocket,
+    desc: "Built to book. Sticky CTA, transparent pricing, trust badges, reviews, urgency and an FAQ — every section engineered to move a visitor to checkout.",
+    accent: "from-teal-600 to-emerald-900",
+    chip: "bg-teal-50 text-teal-900 border-teal-200",
+  },
+]
 
-export default function BenchmarkPage() {
+export default function DesignOptionsHome() {
   return (
-    <div className="min-h-screen bg-[#0f1419] text-[#d4d4d8]">
-      <Nav />
+    <main className="min-h-screen bg-stone-50 text-stone-900">
+      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+        <header className="max-w-3xl">
+          <p className="font-mono text-xs uppercase tracking-[0.25em] text-stone-500">
+            Frontend Design Options
+          </p>
+          <h1 className="mt-4 font-[family-name:var(--font-display)] text-4xl font-bold leading-tight tracking-tight md:text-6xl">
+            {BRAND.name}
+          </h1>
+          <p className="mt-5 text-lg leading-relaxed text-stone-600">
+            Three distinct directions for the same brand — pick a feeling, not just a layout.
+            Each is a complete, responsive landing page built from the same content so you can
+            compare them like-for-like.
+          </p>
+          <p className="mt-3 text-sm text-stone-500">
+            {BRAND.tagline}.
+          </p>
+        </header>
 
-      {/* Page Header */}
-      <header className="px-6 md:px-10 py-8 md:py-12 max-w-[1440px] mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <p className="text-xs font-semibold text-[#f97316] uppercase tracking-[0.2em] mb-3">Competitor Benchmarking</p>
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-[#f0f0f0] text-balance">
-              LOVE vs PLCE vs HELE
-            </h1>
-            <p className="mt-2 text-sm text-[#7a8594] max-w-xl text-pretty">
-              Cross-company financial comparison using FMP Key Metrics data. Analyzing valuation, returns, balance sheet health, and operational efficiency across five fiscal years.
-            </p>
-          </div>
-          <div className="flex items-center gap-4 text-[10px] text-[#7a8594] font-mono uppercase tracking-wide">
-            <div className="flex items-center gap-1.5">
-              <Database className="w-3 h-3" />
-              <span>FMP API</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Clock className="w-3 h-3" />
-              <span>FY2020-FY2025</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <BarChart3 className="w-3 h-3" />
-              <span>Key Metrics</span>
-            </div>
-          </div>
+        <div className="mt-14 grid gap-6 md:grid-cols-3">
+          {OPTIONS.map(({ href, n, title, label, Icon, desc, accent, chip }) => (
+            <Link
+              key={href}
+              href={href}
+              className="group relative flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white p-7 transition-all hover:-translate-y-1 hover:border-stone-300 hover:shadow-xl"
+            >
+              <div
+                className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${accent}`}
+                aria-hidden
+              />
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-sm text-stone-400">{n}</span>
+                <Icon className="h-6 w-6 text-stone-400 transition-colors group-hover:text-stone-700" />
+              </div>
+              <span
+                className={`mt-6 inline-flex w-fit rounded-full border px-3 py-1 text-xs font-medium ${chip}`}
+              >
+                {label}
+              </span>
+              <h2 className="mt-4 font-[family-name:var(--font-display)] text-2xl font-bold">
+                {title}
+              </h2>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-stone-600">{desc}</p>
+              <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-900">
+                View design
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
+          ))}
         </div>
-      </header>
 
-      <div className="max-w-[1440px] mx-auto px-6 md:px-10">
-        <div className="h-px bg-[#1e2530]" />
+        <footer className="mt-16 border-t border-stone-200 pt-6 text-sm text-stone-500">
+          <p>
+            Content is realistic placeholder copy for an English-speaking Greek tour operator —
+            edit it in <code className="rounded bg-stone-100 px-1.5 py-0.5 font-mono text-xs">lib/tours-data.ts</code>.
+            The original benchmarking dashboard now lives at{" "}
+            <Link href="/benchmark" className="underline underline-offset-2 hover:text-stone-800">
+              /benchmark
+            </Link>
+            .
+          </p>
+        </footer>
       </div>
-
-      {/* Company Overview Cards */}
-      <section className="px-6 md:px-10 pt-8 pb-4 max-w-[1440px] mx-auto">
-        <CompanyHeaderCards />
-      </section>
-
-      {/* Valuation Charts Row */}
-      <section className="px-6 md:px-10 py-4 max-w-[1440px] mx-auto">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-1 h-5 bg-[#f97316] rounded-sm" />
-          <h2 className="text-lg font-bold text-[#f0f0f0]">Valuation Multiples</h2>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <ValuationChart metric="evToEBITDA" title="EV / EBITDA" />
-          <ValuationChart metric="evToSales" title="EV / Sales" />
-        </div>
-      </section>
-
-      {/* Returns Charts Row */}
-      <section className="px-6 md:px-10 py-4 max-w-[1440px] mx-auto">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-1 h-5 bg-[#f97316] rounded-sm" />
-          <h2 className="text-lg font-bold text-[#f0f0f0]">Return Metrics</h2>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <ReturnsChart metric="returnOnAssets" title="Return on Assets" />
-          <ReturnsChart metric="returnOnCapitalEmployed" title="Return on Capital Employed" />
-        </div>
-      </section>
-
-      {/* Radar + Insights Row */}
-      <section className="px-6 md:px-10 py-4 max-w-[1440px] mx-auto">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-1 h-5 bg-[#f97316] rounded-sm" />
-          <h2 className="text-lg font-bold text-[#f0f0f0]">Operational Analysis</h2>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <EfficiencyRadar />
-          <InsightsPanel />
-        </div>
-      </section>
-
-      {/* Leverage + Working Capital Row */}
-      <section className="px-6 md:px-10 py-4 max-w-[1440px] mx-auto">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-1 h-5 bg-[#f97316] rounded-sm" />
-          <h2 className="text-lg font-bold text-[#f0f0f0]">Balance Sheet Trends</h2>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <LeverageChart />
-          <WorkingCapitalChart />
-        </div>
-      </section>
-
-      {/* Full Metrics Table */}
-      <section className="px-6 md:px-10 py-4 pb-8 max-w-[1440px] mx-auto">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-1 h-5 bg-[#f97316] rounded-sm" />
-          <h2 className="text-lg font-bold text-[#f0f0f0]">Full Metrics Comparison</h2>
-        </div>
-        <MetricsTable />
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-[#1e2530] px-6 md:px-10 py-6 max-w-[1440px] mx-auto">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-0.5">
-              <div className="w-1 h-4 bg-[#f97316] rounded-sm" />
-              <div className="w-1 h-2.5 bg-[#f97316]/60 rounded-sm" />
-              <div className="w-1 h-3 bg-[#f97316]/80 rounded-sm" />
-            </div>
-            <span className="text-sm text-[#7a8594]">CorpDev Companion</span>
-          </div>
-          <p className="text-xs text-[#7a8594]">Data sourced from Financial Modeling Prep (FMP) Key Metrics API -- For informational purposes only</p>
-        </div>
-      </footer>
-    </div>
+    </main>
   )
 }
