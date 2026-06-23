@@ -1,12 +1,8 @@
 import Link from "next/link"
-import { BRAND, TOURS, REVIEWS } from "@/lib/tours-data"
+import { BRAND, TOURS, REVIEWS, HEROES } from "@/lib/tours-data"
 import { DesignSwitcher } from "@/components/design-switcher"
+import { Photo } from "@/components/photo"
 import { ArrowDown, MapPin } from "lucide-react"
-
-const HERO =
-  "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=2400&q=80"
-const QUOTE_BG =
-  "https://images.unsplash.com/photo-1504512485720-7d83a16ee930?auto=format&fit=crop&w=2400&q=80"
 
 export default function ImageryDesign() {
   const feature = TOURS.slice(0, 3)
@@ -16,15 +12,13 @@ export default function ImageryDesign() {
       <DesignSwitcher />
 
       {/* Hero */}
-      <section className="relative flex h-screen min-h-[640px] flex-col">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={HERO}
-          alt="The Aegean at dusk"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/10 to-black/80" />
-
+      <Photo
+        src={HEROES.imagery.image}
+        grad={HEROES.imagery.grad}
+        label="The Aegean at dusk"
+        className="flex h-screen min-h-[640px] flex-col"
+        overlayClassName="bg-gradient-to-b from-black/50 via-black/10 to-black/80"
+      >
         <nav className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-7">
           <Link href="/imagery" className="text-lg font-semibold tracking-wide">
             Anglofone<span className="font-light text-white/70"> · Greek Tours</span>
@@ -53,7 +47,7 @@ export default function ImageryDesign() {
             <span className="text-sm">{BRAND.guestsGuided} travellers · {BRAND.rating.toFixed(1)}★</span>
           </div>
         </div>
-      </section>
+      </Photo>
 
       {/* Statement */}
       <section className="mx-auto max-w-5xl px-6 py-28 text-center md:py-40">
@@ -71,17 +65,13 @@ export default function ImageryDesign() {
             key={tour.slug}
             className="relative grid min-h-[80vh] grid-cols-1 md:grid-cols-2"
           >
-            <div
-              className={`relative min-h-[50vh] md:min-h-full ${i % 2 === 1 ? "md:order-2" : ""}`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={tour.image}
-                alt={tour.name}
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/10" />
-            </div>
+            <Photo
+              src={tour.image}
+              grad={tour.grad}
+              label={tour.name}
+              className={`min-h-[50vh] md:min-h-full ${i % 2 === 1 ? "md:order-2" : ""}`}
+              overlayClassName="bg-black/10"
+            />
             <div className="flex flex-col justify-center bg-[#0c0f12] px-6 py-16 md:px-16">
               <div className="mb-4 flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-sky-400">
                 <MapPin className="h-3.5 w-3.5" />
@@ -119,38 +109,38 @@ export default function ImageryDesign() {
         </div>
         <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {TOURS.map((tour) => (
-            <a
+            <Link
               key={tour.slug}
               href="#contact"
-              className="group relative aspect-[3/4] w-[78vw] flex-none snap-center overflow-hidden rounded-xl sm:w-[44vw] lg:w-[27vw]"
+              className="group aspect-[3/4] w-[78vw] flex-none snap-center sm:w-[44vw] lg:w-[27vw]"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Photo
                 src={tour.image}
-                alt={tour.name}
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-              <div className="absolute bottom-0 left-0 p-6">
-                <p className="text-xs uppercase tracking-[0.25em] text-sky-300">{tour.region}</p>
-                <h3 className="mt-1 font-[family-name:var(--font-display)] text-2xl font-semibold">
-                  {tour.name}
-                </h3>
-              </div>
-            </a>
+                grad={tour.grad}
+                label={tour.name}
+                className="h-full w-full rounded-xl transition-transform duration-700 group-hover:scale-[1.03]"
+                overlayClassName="bg-gradient-to-t from-black/80 via-black/10 to-transparent"
+              >
+                <div className="absolute bottom-0 left-0 p-6">
+                  <p className="text-xs uppercase tracking-[0.25em] text-sky-300">{tour.region}</p>
+                  <h3 className="mt-1 font-[family-name:var(--font-display)] text-2xl font-semibold">
+                    {tour.name}
+                  </h3>
+                </div>
+              </Photo>
+            </Link>
           ))}
         </div>
       </section>
 
       {/* Full-bleed quote */}
-      <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={QUOTE_BG}
-          alt="Santorini"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/55" />
+      <Photo
+        src={HEROES.imageryQuote.image}
+        grad={HEROES.imageryQuote.grad}
+        label="Santorini"
+        className="flex min-h-[70vh] items-center justify-center"
+        overlayClassName="bg-black/55"
+      >
         <figure className="relative z-10 mx-auto max-w-4xl px-6 text-center">
           <blockquote className="font-[family-name:var(--font-display)] text-3xl font-medium leading-snug md:text-5xl">
             “{REVIEWS[0].quote}”
@@ -159,7 +149,7 @@ export default function ImageryDesign() {
             {REVIEWS[0].name} — {REVIEWS[0].origin}
           </figcaption>
         </figure>
-      </section>
+      </Photo>
 
       {/* Contact */}
       <footer id="contact" className="mx-auto max-w-7xl px-6 py-28 text-center">

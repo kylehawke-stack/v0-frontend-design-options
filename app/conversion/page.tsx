@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { BRAND, TOURS, REVIEWS, FAQ } from "@/lib/tours-data"
 import { DesignSwitcher } from "@/components/design-switcher"
+import { Photo } from "@/components/photo"
 import {
   Accordion,
   AccordionContent,
@@ -182,57 +183,99 @@ export default function ConversionDesign() {
             return (
               <div
                 key={tour.slug}
-                className={`relative flex flex-col rounded-2xl border bg-white p-6 transition-all hover:-translate-y-1 hover:shadow-xl ${
+                className={`relative flex flex-col rounded-2xl border bg-white transition-all hover:-translate-y-1 hover:shadow-xl ${
                   featured ? "border-teal-600 shadow-lg ring-1 ring-teal-600" : "border-stone-200"
                 }`}
               >
                 {featured && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-teal-700 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+                  <span className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 rounded-full bg-teal-700 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white shadow">
                     Most popular
                   </span>
                 )}
-                <div className="flex items-center justify-between text-xs font-medium uppercase tracking-wide text-stone-500">
-                  <span>{tour.region}</span>
-                  <span className="inline-flex items-center gap-1">
-                    <Clock className="h-3.5 w-3.5" /> {tour.duration}
+                <Photo
+                  src={tour.image}
+                  grad={tour.grad}
+                  label={tour.name}
+                  className="h-44 w-full rounded-t-2xl"
+                  overlayClassName="bg-gradient-to-t from-black/30 to-transparent"
+                >
+                  <span className="absolute bottom-3 left-3 rounded-md bg-white/90 px-2 py-1 text-sm font-bold text-stone-900 shadow-sm">
+                    from €{tour.priceFrom} pp
                   </span>
-                </div>
-                <h3 className="mt-3 text-xl font-bold">{tour.name}</h3>
-                <div className="mt-1 flex items-center gap-2">
-                  <Stars n={5} />
-                  <span className="text-xs text-stone-500">{BRAND.rating.toFixed(1)}</span>
-                </div>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-stone-600">{tour.summary}</p>
-                <ul className="mt-4 space-y-1.5">
-                  {tour.highlights.slice(0, 3).map((h) => (
-                    <li key={h} className="flex items-start gap-2 text-sm text-stone-700">
-                      <Check className="mt-0.5 h-4 w-4 flex-none text-teal-600" /> {h}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-6 border-t border-stone-100 pt-4">
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-sm text-stone-500">from</span>
-                    <span className="text-3xl font-extrabold">€{tour.priceFrom}</span>
-                    <span className="text-sm text-stone-500">/ person</span>
+                </Photo>
+                <div className="flex flex-1 flex-col p-6">
+                  <div className="flex items-center justify-between text-xs font-medium uppercase tracking-wide text-stone-500">
+                    <span>{tour.region}</span>
+                    <span className="inline-flex items-center gap-1">
+                      <Clock className="h-3.5 w-3.5" /> {tour.duration}
+                    </span>
                   </div>
-                  <a
-                    href={`mailto:${BRAND.email}?subject=Booking enquiry: ${encodeURIComponent(tour.name)}`}
-                    className={`mt-4 block rounded-lg px-4 py-3 text-center text-base font-bold transition-colors ${
-                      featured
-                        ? "bg-teal-700 text-white hover:bg-teal-800"
-                        : "bg-stone-900 text-white hover:bg-stone-800"
-                    }`}
-                  >
-                    Book this tour
-                  </a>
+                  <h3 className="mt-3 text-xl font-bold">{tour.name}</h3>
+                  <div className="mt-1 flex items-center gap-2">
+                    <Stars n={5} />
+                    <span className="text-xs text-stone-500">{BRAND.rating.toFixed(1)}</span>
+                  </div>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-stone-600">{tour.summary}</p>
+                  <ul className="mt-4 space-y-1.5">
+                    {tour.highlights.slice(0, 3).map((h) => (
+                      <li key={h} className="flex items-start gap-2 text-sm text-stone-700">
+                        <Check className="mt-0.5 h-4 w-4 flex-none text-teal-600" /> {h}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-6 border-t border-stone-100 pt-4">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-sm text-stone-500">from</span>
+                      <span className="text-3xl font-extrabold">€{tour.priceFrom}</span>
+                      <span className="text-sm text-stone-500">/ person</span>
+                    </div>
+                    <a
+                      href={`mailto:${BRAND.email}?subject=Booking enquiry: ${encodeURIComponent(tour.name)}`}
+                      className={`mt-4 block rounded-lg px-4 py-3 text-center text-base font-bold transition-colors ${
+                        featured
+                          ? "bg-teal-700 text-white hover:bg-teal-800"
+                          : "bg-stone-900 text-white hover:bg-stone-800"
+                      }`}
+                    >
+                      Book this tour
+                    </a>
+                  </div>
                 </div>
               </div>
             )
           })}
         </div>
 
-        <div className="mt-8 text-center">
+        {/* More destinations — compact image tiles */}
+        <div className="mt-12">
+          <p className="mb-4 text-center text-sm font-semibold uppercase tracking-wide text-stone-500">
+            More day trips & cruises
+          </p>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            {TOURS.slice(3).map((tour) => (
+              <a
+                key={tour.slug}
+                href={`mailto:${BRAND.email}?subject=Booking enquiry: ${encodeURIComponent(tour.name)}`}
+                className="group"
+              >
+                <Photo
+                  src={tour.image}
+                  grad={tour.grad}
+                  label={tour.name}
+                  className="aspect-square w-full rounded-xl transition-transform group-hover:scale-[1.03]"
+                  overlayClassName="bg-gradient-to-t from-black/75 via-black/10 to-transparent"
+                >
+                  <div className="absolute inset-x-0 bottom-0 p-3">
+                    <p className="text-sm font-bold leading-tight text-white">{tour.name}</p>
+                    <p className="text-xs text-white/80">from €{tour.priceFrom}</p>
+                  </div>
+                </Photo>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-10 text-center">
           <a href={`mailto:${BRAND.email}`} className="font-semibold text-teal-700 underline underline-offset-4 hover:text-teal-900">
             View all {TOURS.length} tours & custom itineraries →
           </a>

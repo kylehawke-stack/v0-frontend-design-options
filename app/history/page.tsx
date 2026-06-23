@@ -1,6 +1,7 @@
 import Link from "next/link"
-import { BRAND, TOURS, REVIEWS } from "@/lib/tours-data"
+import { BRAND, TOURS, REVIEWS, HEROES } from "@/lib/tours-data"
 import { DesignSwitcher } from "@/components/design-switcher"
+import { Photo } from "@/components/photo"
 
 // ── Greek meander (key) divider ──────────────────────────────────────────────
 function Meander({ className = "" }: { className?: string }) {
@@ -95,6 +96,23 @@ export default function HistoryDesign() {
         <Meander className="w-full text-[#e0d6c2]" />
       </section>
 
+      {/* Framed photographic plate — an antique-illustration feel */}
+      <section className="mx-auto max-w-5xl px-6 pb-4 pt-12">
+        <figure className="border border-[#d8cdb8] bg-[#efe7d6] p-3 shadow-sm">
+          <Photo
+            src={HEROES.history.image}
+            grad={HEROES.history.grad}
+            label="The Acropolis of Athens"
+            className="h-[44vh] min-h-[300px] w-full"
+            position="center 35%"
+            overlayClassName="bg-[#3a2a16]/15"
+          />
+          <figcaption className="mt-3 text-center text-sm italic text-[#7a6f5c]">
+            The Acropolis of Athens — where nearly every Anglofone journey begins.
+          </figcaption>
+        </figure>
+      </section>
+
       {/* Stat band */}
       <section className="border-y border-[#d8cdb8] bg-[#efe7d6]">
         <div className="mx-auto grid max-w-5xl grid-cols-2 divide-x divide-[#d8cdb8] px-6 md:grid-cols-4">
@@ -185,29 +203,37 @@ export default function HistoryDesign() {
           {featured.map((tour, i) => (
             <article
               key={tour.slug}
-              className="grid items-start gap-8 md:grid-cols-12"
+              className="grid items-center gap-8 md:grid-cols-2 md:gap-12"
             >
-              <div className="md:col-span-1">
-                <span className="font-[family-name:var(--font-display)] text-5xl font-bold text-[#9c5a3c]/40">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-              </div>
-              <div className="md:col-span-7">
-                <div className="mb-2 flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-[#9c5a3c]">
-                  <span>{tour.region}</span>
-                  <span className="text-[#c5b89f]">/</span>
-                  <span>{tour.duration}</span>
+              {/* Framed photo plate, alternating sides */}
+              <figure className={i % 2 === 1 ? "md:order-2" : ""}>
+                <div className="border border-[#d8cdb8] bg-[#efe7d6] p-2.5 shadow-sm">
+                  <Photo
+                    src={tour.image}
+                    grad={tour.grad}
+                    label={tour.name}
+                    className="aspect-[4/3] w-full"
+                    overlayClassName="bg-[#3a2a16]/15"
+                  />
+                </div>
+              </figure>
+
+              <div>
+                <div className="mb-3 flex items-center gap-3">
+                  <span className="font-[family-name:var(--font-display)] text-4xl font-bold text-[#9c5a3c]/40">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-xs uppercase tracking-[0.2em] text-[#9c5a3c]">
+                    {tour.region} · {tour.duration}
+                  </span>
                 </div>
                 <h3 className="font-[family-name:var(--font-display)] text-3xl font-bold text-[#1f3a4d]">
                   {tour.name}
                 </h3>
                 <p className="mt-4 text-lg leading-relaxed text-[#4a4236]">{tour.story}</p>
-              </div>
-              <div className="md:col-span-4 md:border-l md:border-[#d8cdb8] md:pl-6">
-                <p className="text-xs uppercase tracking-[0.2em] text-[#7a6f5c]">Highlights</p>
-                <ul className="mt-3 space-y-2 text-[#4a4236]">
+                <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-1.5 text-[#4a4236]">
                   {tour.highlights.map((h) => (
-                    <li key={h} className="flex gap-2 text-base">
+                    <li key={h} className="flex items-center gap-2 text-base">
                       <span className="text-[#9c5a3c]">—</span>
                       {h}
                     </li>
@@ -226,9 +252,16 @@ export default function HistoryDesign() {
         </div>
       </section>
 
-      {/* Pull quote */}
-      <section className="bg-[#1f3a4d] py-24 text-center text-[#f6f1e7]">
-        <div className="mx-auto max-w-3xl px-6">
+      {/* Pull quote over a photographic ground */}
+      <Photo
+        src={TOURS[4].image}
+        grad={TOURS[4].grad}
+        label="The Temple of Poseidon at Cape Sounion"
+        className="py-24 text-center text-[#f6f1e7]"
+        position="center 40%"
+        overlayClassName="bg-[#16293c]/80"
+      >
+        <div className="relative z-10 mx-auto max-w-3xl px-6">
           <Meander className="mx-auto mb-8 w-32 text-[#c98a5e]" />
           <blockquote className="font-[family-name:var(--font-display)] text-3xl font-medium italic leading-snug md:text-4xl">
             “We are all Greeks. Our laws, our literature, our religion, our arts have their root
@@ -236,7 +269,7 @@ export default function HistoryDesign() {
           </blockquote>
           <p className="mt-6 text-sm uppercase tracking-[0.3em] text-[#c98a5e]">— Percy Bysshe Shelley</p>
         </div>
-      </section>
+      </Photo>
 
       {/* Guides */}
       <section id="guides" className="mx-auto max-w-3xl px-6 py-20 text-center md:py-28">
